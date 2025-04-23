@@ -1,0 +1,44 @@
+{
+  "usuarios": [
+    {
+      "id": "1",
+      "nome": "Pedro",
+      "cpf": "123.456.789-00",
+      "email": "pedro@gmail.com",
+      "senha": "123456789"
+    },
+    {
+      "id": "2",
+      "nome": "Heleno",
+      "cpf": "009.876.543-21",
+      "email": "heleno@gmail.com",
+      "senha": "987654321"
+    }
+  ],
+  "contatos": [
+    {
+      "id": "1",
+      "nome": "Silva",
+      "email": "silva@gmail.com",
+      "telefone": "81 966663333"
+    },
+    {
+      "id": "2",
+      "nome": "Barros",
+      "email": "barros@gmail.com",
+      "telefone": "81 977772222"
+    },
+    {
+      "id": "19b0",
+      "nome": "Dafni",
+      "email": "dafni@gmail.com",
+      "telefone": "81 925683697"
+    },
+    {
+      "id": "f443",
+      "nome": "Maria",
+      "email": "maria@gmail.com",
+      "telefone": "81 996261386"
+    }
+  ]
+}
