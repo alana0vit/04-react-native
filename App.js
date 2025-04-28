@@ -6,7 +6,6 @@ import { Button } from 'react-native-elements';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { ListItem, Avatar } from 'react-native-elements'
-import { useRoute } from '@react-navigation/native';
 import { Text } from 'react-native-elements';
 import axios from 'axios';
 import { TextInput } from 'react-native-web';
@@ -64,25 +63,48 @@ function ListaContatos({ navigation }) {
   );
 }
 
-function CadastroUser() {
+function CadastroUser({ navigation }) {
+  const [nome, setNome] = React.useState('');
+  const [cpf, setCpf] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [senha, setSenha] = React.useState('');
+
+  const salvarUsuario = () => {
+    axios.post('http://localhost:3000/usuarios', {
+      nome: nome,
+      cpf: cpf,
+      email: email,
+      senha: senha
+    }).then(function (response) {
+      console.log("Contato salvo: ", response.data);
+      navigation.navigate('Login');
+    }).catch(function (error) {
+      console.log("Erro ao salvar o contato:", error);
+    });
+  };
+
   return (
     <View style={styles.container}>
 
-      <Input placeholder='NOME' />
+      <Text h4>Nome do usuário: </Text>
+      <TextInput style={styles.box} placeholder='Ex: Maria' value={nome} onChangeText={setNome} />
 
-      <Input placeholder='CPF' />
+      <Text h4>CPF do usuário: </Text>
+      <TextInput style={styles.box} placeholder='Ex: 111.222.333-44' value={cpf} onChangeText={setCpf} />
 
-      <Input placeholder='E-MAIL' />
+      <Text h4>E-mail do usuário: </Text>
+      <TextInput style={styles.box} placeholder='Ex: maria@example.com' value={email} onChangeText={setEmail} />
 
-      <Input placeholder="SENHA" secureTextEntry={true} />
+      <Text h4>Senha do usuário: </Text>
+      <TextInput style={styles.box} value={senha} onChangeText={setSenha} />
 
-      <Button title="Salvar" buttonStyle={styles.button} />
+      <Button title="Salvar" buttonStyle={styles.button} onPress={salvarUsuario} />
 
     </View>
   );
 }
 
-function CadastroContato() {
+function CadastroContato({ navigation }) {
   const [nome, setNome] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [telefone, setTelefone] = React.useState('');
@@ -134,24 +156,14 @@ function Contato({ route, navigation }) {
   const { id, nome, email, telefone } = route.params;
 
   const deletarContato = () => {
-    Alert.alert(
-      "Confirmar exclusão",
-      "Tem certeza que deseja excluir este contato?",
-      [
-        { text: "Cancelar", style: "cancel" },
-        {
-          text: "Sim", style: "destructive", onPress: () => {
-            axios.delete(`http://localhost:3000/contatos/${id}`)
-              .then(function (response) {
-                console.log("Contato excluído: ", response.data);
-                navigation.navigate('ListaContato');
-              }).catch(function (error) {
-                console.log("Erro ao excluir o contato", error);
-              });
-          }
-        }
-      ]
-    );
+    axios.delete(`http://localhost:3000/contatos/${id}`)
+      .then(() => {
+        Alert.alert("Sucesso", "Contato excluído!");
+        navigation.goBack();
+      }).catch(error => {
+        console.log("Erro ao excluir o contato: ", error);
+        Alert.alert("Erro", "Não foi possível excluir o contato.");
+      });
   };
 
   return (
@@ -163,11 +175,49 @@ function Contato({ route, navigation }) {
       <Text h4 style={styles.caixa}>TELEFONE</Text>
       <Text h4>{telefone}</Text>
 
-      <Button title="Alterar" buttonStyle={styles.button} />
+      <Button title="Alterar" onPress={() => navigation.navigate('AlterarContato', { id, nome, email, telefone })} buttonStyle={styles.button} />
 
-      <Button title="Excluir" buttonStyle={styles.button2} onPress={deletarContato} />
+      <Button title="Excluir" buttonStyle={styles.button2} onPress={(deletarContato)} />
 
     </View>
+  );
+}
+
+function AlterarContato({ route, navigation }) {
+  const { id, nome, email, telefone } = route.params;
+
+  const [nome2, setNome2] = React.useState(nome);
+  const [email2, setEmail2] = React.useState(email);
+  const [telefone2, setTelefone2] = React.useState(telefone);
+
+  const alterarContato = () => {
+    axios.put(`http://localhost:3000/contatos/${id}`, {
+      nome: nome2,
+      email: email2,
+      telefone: telefone2
+    })
+      .then(() => {
+        Alert.alert("Sucesso", "Contato alterado!");
+        navigation.navigate('ListaContato');
+      }).catch(error => console.log(error));
+  };
+
+  return (
+    <View style={styles.container}>
+
+      <Text h4>Novo nome: </Text>
+      <TextInput style={styles.box} placeholder='Ex: Maria' value={nome2} onChangeText={setNome2} />
+
+      <Text h4>Novo E-mail: </Text>
+      <TextInput style={styles.box} placeholder='Ex: maria@example.com' value={email2} onChangeText={setEmail2} />
+
+      <Text h4>Novo número: </Text>
+      <TextInput style={styles.box} placeholder='Ex: 81 911112222' value={telefone2} onChangeText={setTelefone2} />
+
+      <Button title="Enviar" buttonStyle={styles.button} onPress={(alterarContato)} />
+
+    </View>
+
   );
 }
 
@@ -223,6 +273,8 @@ function App({ navigation }) {
         <Stack.Screen name="Contato" component={Contato} options={{ headerTitleAlign: 'center', }} />
 
         <Stack.Screen name="RecuperarSenha" component={RecuperarSenha} options={{ headerTitleAlign: 'center', }} />
+
+        <Stack.Screen name="AlterarContato" component={AlterarContato} options={{ headerTitleAlign: 'center', }} />
 
       </Stack.Navigator>
     </NavigationContainer>

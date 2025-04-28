@@ -13,6 +13,27 @@
       "cpf": "009.876.543-21",
       "email": "heleno@gmail.com",
       "senha": "987654321"
+    },
+    {
+      "id": "4f31",
+      "nome": "Claudia",
+      "cpf": "999.777.666-00",
+      "email": "claudia@gmail.com",
+      "senha": "claudiauser01"
+    },
+    {
+      "id": "66f8",
+      "nome": "Janaina",
+      "cpf": "343.456.312-56",
+      "email": "janaina@uol.com",
+      "senha": "janainauser02"
+    },
+    {
+      "id": "b771",
+      "nome": "Lirio",
+      "cpf": "984.567.245-85",
+      "email": "lirio@uol.com",
+      "senha": "liriouser03"
     }
   ],
   "contatos": [
@@ -39,6 +60,24 @@
       "nome": "Maria",
       "email": "maria@gmail.com",
       "telefone": "81 996261386"
+    },
+    {
+      "id": "24a2",
+      "nome": "Clara",
+      "email": "clara@gmail.com",
+      "telefone": "81 937446590"
+    },
+    {
+      "id": "08e8",
+      "nome": "Felix",
+      "email": "felix@gmail.com",
+      "telefone": "81 947457675"
+    },
+    {
+      "nome": "Fabi",
+      "email": "fabiola@uol.com",
+      "telefone": "81 993659068",
+      "id": "c68c"
     }
   ]
 }
